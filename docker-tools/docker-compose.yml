@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+
+  nginx:
+    build:
+      context: ./../nginx
+      dockerfile: Dockerfile
+    restart: always
+    image: danydodson/seesee-nginx
+    ports:
+      - '8081:8081'
+    env_file:
+      - ./../nginx/.env
+    volumes:
+      - './../nginx/data:/etc/nginx'
+      - './../nginx/lua:/usr/local/openresty/nginx/lua'
+    networks:
+      - front-tier
+      - back-tier
+    depends_on:
+      - users
+
+  pwa:
+    build:
+      context: ./../pwa
+      dockerfile: Dockerfile
+    restart: always
+    image: danydodson/seesee-pwa
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_URL=http://localhost:8081
+    stdin_open: true
+    volumes:
+      - './../pwa:/usr/src/app'
+      - 'pwas-nm:/usr/src/app/node_modules'
+    networks:
+      - front-tier
+    depends_on:
+      - users
+
+  users:
+    build:
+      context: ./../users
+      dockerfile: Dockerfile
+    restart: always
+    image: danydodson/seesee-users
+    volumes:
+      - './../users:/usr/src/app'
+      - 'users-nm:/usr/src/app/node_modules'
+    environment:
+      NODE_ENV: development
+    ports:
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
+    networks:
+      - back-tier
+
+networks:
+  front-tier:
+  back-tier:
+
+volumes:
+  pwas-nm: null
+  users-nm: null
