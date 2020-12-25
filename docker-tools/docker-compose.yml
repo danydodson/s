@@ -13,7 +13,6 @@ services:
       - ./../nginx-services/.env.test
     volumes:
       - './../nginx-services/data:/usr/local/openresty/nginx'
-      - './../nginx-services/lua:/usr/local/openresty/nginx/lua'
     networks:
       - front-tier
       - back-tier
