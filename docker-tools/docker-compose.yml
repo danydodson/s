@@ -60,7 +60,7 @@ services:
     networks:
       - back-tier
     links:
-      - users-services
+      - nginx-services
 
 networks:
   front-tier:
