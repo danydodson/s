@@ -34,7 +34,7 @@ jobs:
             # docker-compose will start 2 containers, the one with service will be named `users-services`
             # we start another container with curl in the same network as `users-services`, this way we have
             # all exposed ports from `users-services` available on `localhost` in this new container
-            docker run --network back-tier users-services \
+            docker run --network back-tier:users-services \
               appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8081/users-services/test
       
       - store_artifacts:

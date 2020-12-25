@@ -53,9 +53,9 @@ services:
       - 'users-nm:/usr/src/app/node_modules'
     environment:
       NODE_ENV: development
-    ports:
-      - 9229:9229
-    command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
+    # ports:
+    #   - 9229:9229
+    # command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
     networks:
       - back-tier
     links:
