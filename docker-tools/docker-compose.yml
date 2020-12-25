@@ -18,7 +18,7 @@ services:
       - front-tier
       - back-tier
     depends_on:
-      - users
+      - users-services
 
   # pwa:
   #   build:
