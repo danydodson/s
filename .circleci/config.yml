@@ -1,15 +1,13 @@
 version: 2.1
-
 workflows:
   main:
     jobs:
       - build
-
 jobs:
   build:
     machine:
       image: ubuntu-2004:202010-01
-      
+
     environment:
       TEST_RESULTS: /tmp/test-results
 
@@ -21,10 +19,14 @@ jobs:
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
             chmod +x ~/docker-compose
-
+  
+      - run: mkdir -p $TEST_RESULTS
+      
       - run:
           name: Build service
           command: make test
+
+      - setup_remote_docker
 
       - run:
           name: Start container and verify it's working
@@ -34,7 +36,7 @@ jobs:
             # docker-compose will start 2 containers, the one with service will be named `users-services`
             # we start another container with curl in the same network as `users-services`, this way we have
             # all exposed ports from `users-services` available on `localhost` in this new container
-            docker run --network back-tier:users-services \
+            docker run --network container:users-services \
               appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8081/users-services/test
       
       - store_artifacts:
