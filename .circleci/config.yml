@@ -30,7 +30,7 @@ jobs:
           command: |
             set -x
             docker-compose -f docker-tools/docker-compose.yml build
-            echo -e '\\033[34m[+]\\033[0m' 'continuing for now...'
+            echo '\\033[34m[+]\\033[0m' 'continuing for now...'
 
       - store_artifacts:
           path: /tmp/test-results
