@@ -9,6 +9,10 @@ jobs:
   build:
     machine:
       image: ubuntu-2004:202010-01
+      
+    environment:
+      TEST_RESULTS: /tmp/test-results
+
     steps:
       - checkout
 
@@ -41,3 +45,10 @@ jobs:
             # all exposed ports from `contacts` available on `localhost` in this new container
             docker run --network container:contacts \
               appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8080/contacts/test
+      
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: raw-test-output
+
+      - store_test_results:
+          path: /tmp/test-results
