@@ -29,9 +29,8 @@ jobs:
           name: Start container and verify it's working
           command: |
             set -x
-            export P="\\033[34m[+]\\033[0m"
             docker-compose -f docker-tools/docker-compose.yml build
-            echo $(P) continuing for now
+            echo continue
 
       - store_artifacts:
           path: /tmp/test-results
