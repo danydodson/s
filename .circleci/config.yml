@@ -32,12 +32,11 @@ jobs:
           name: Start container and verify it's working
           command: |
             set -x
-            docker-compose -f docker-tools/docker-compose.yml up -d --build users-services
-            # docker-compose will start 2 containers, the one with service will be named `users-services`
-            # we start another container with curl in the same network as `users-services`, this way we have
-            # all exposed ports from `users-services` available on `localhost` in this new container
-            docker run --network container:users-services \
-              appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8081/users-services/test
+            docker-compose -f docker-tools/docker-compose.yml build contacts
+            docker-compose -f docker-tools/docker-compose.yml up -d contacts
+            # docker-compose will start 2 containers, the one with service will be named `contacts` we start another container with curl in the same network as `contacts`, this way we have all exposed ports from `contacts` available on `localhost` in this new container
+            docker run --network container:contacts \
+              appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8081/contacts/test
       
       - store_artifacts:
           path: /tmp/test-results

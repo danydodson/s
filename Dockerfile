@@ -2,7 +2,7 @@ FROM alpine:3.5
 
 ADD docker-entrypoint.sh /
 
-ADD workdir/users-services /usr/bin/users-services
+ADD workdir/contacts /usr/bin/contacts
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
