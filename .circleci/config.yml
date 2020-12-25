@@ -20,7 +20,7 @@ jobs:
 
       - run:
           name: Build service
-          command: make
+          command: make test
 
       - run:
           name: Start container and verify it's working
