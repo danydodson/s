@@ -1,42 +1,42 @@
-version: 2.1
-workflows:
-  main:
-    jobs:
-      - build
-jobs:
-  build:
-    machine:
-      image: ubuntu-2004:202010-01
+# version: 2.1
+# workflows:
+#   main:
+#     jobs:
+#       - build
+# jobs:
+#   build:
+#     machine:
+#       image: ubuntu-2004:202010-01
 
-    environment:
-      TEST_RESULTS: /tmp/test-results
+#     environment:
+#       TEST_RESULTS: /tmp/test-results
 
-    steps:
+#     steps:
     
-      - checkout
+#       - checkout
 
-      - run:
-          name: Install Docker Compose
-          command: |
-            curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
+#       - run:
+#           name: Install Docker Compose
+#           command: |
+#             curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+#             chmod +x ~/docker-compose
     
-      - run:
-          name: Build service
-          # command: make test
-          command: |
-            echo test => continue
+#       - run:
+#           name: Build service
+#           # command: make test
+#           command: |
+#             echo test => continue
   
-      - run:
-          name: Start container and verify it's working
-          command: |
-            set -x
-            docker-compose -f docker-tools/docker-compose.yml build
-            echo docker-compose => continue
+#       - run:
+#           name: Start container and verify it's working
+#           command: |
+#             set -x
+#             docker-compose -f docker-tools/docker-compose.yml build
+#             echo docker-compose => continue
 
-      - store_artifacts:
-          path: /tmp/test-results
-          destination: raw-test-output
+#       - store_artifacts:
+#           path: /tmp/test-results
+#           destination: raw-test-output
 
-      - store_test_results:
-          path: /tmp/test-results
+#       - store_test_results:
+#           path: /tmp/test-results
