@@ -2,6 +2,10 @@ const User = require('../models')
 
 const { hashPassword } = require('../utils')
 
+exports.test = async (req, res) => {
+  res.status(200).json({ success: true, msg: 'Users Services Working' })
+}
+
 // @access Public
 // @route GET /api/v1/users
 // @desc Get user by ID or return all users
