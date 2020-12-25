@@ -6,6 +6,6 @@ TAG = $(CIRCLE_PROJECT_REPONAME):${CIRCLE_COMMIT_HASH}
 P="\\033[34m[+]\\033[0m"
 
 test:
-	@echo "  $(P) test  tag: ${TAG}"
+	@echo "  $(P) test "
 
 .PHONY: test

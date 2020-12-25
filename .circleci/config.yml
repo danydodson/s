@@ -12,6 +12,7 @@ jobs:
       TEST_RESULTS: /tmp/test-results
 
     steps:
+    
       - checkout
 
       - run:
@@ -19,19 +20,17 @@ jobs:
           command: |
             curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
             chmod +x ~/docker-compose
-  
-      - run: mkdir -p $TEST_RESULTS
-      
+    
       - run:
           name: Build service
           command: make test
-
+  
       - run:
           name: Start container and verify it's working
           command: |
             set -x
             docker-compose -f docker-tools/docker-compose.yml build
-            echo "continuing for now..."
+            echo -e '\\033[34m[+]\\033[0m' 'continuing for now...'
 
       - store_artifacts:
           path: /tmp/test-results
