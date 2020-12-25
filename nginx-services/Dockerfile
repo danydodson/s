@@ -1,10 +1,10 @@
 FROM openresty/openresty:alpine-fat
 
 RUN apk add --no-cache git && \
-  rm -rf /etc/nginx/* && \
+  rm -rf /usr/local/openresty/nginx/* && \
   mkdir -p /var/log/nginx
 
-COPY data/* /etc/nginx/
+COPY data/* /usr/local/openresty/nginx/
 COPY lua/* /usr/local/openresty/nginx/lua/
 
 RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-jwt
@@ -16,4 +16,4 @@ RUN ln -sf /dev/stdout /var/log/nginx/error.log
 
 EXPOSE 8081
 
-ENTRYPOINT ["/usr/local/openresty/bin/openresty", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
+ENTRYPOINT ["/usr/local/openresty/bin/openresty", "-g", "daemon off;", "-c", "/usr/local/openresty/nginx/nginx.conf"]

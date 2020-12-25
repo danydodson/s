@@ -1,54 +1,54 @@
 version: '3.8'
 services:
 
-  nginx:
+  nginx-services:
     build:
-      context: ./../nginx
+      context: ./../nginx-services
       dockerfile: Dockerfile
     restart: always
-    image: danydodson/seesee-nginx
+    image: seesee/nginx-services
     ports:
       - '8081:8081'
     env_file:
       - ./../nginx/.env
     volumes:
-      - './../nginx/data:/etc/nginx'
-      - './../nginx/lua:/usr/local/openresty/nginx/lua'
+      - './../nginx-services/data:/usr/local/openresty/nginx'
+      - './../nginx-services/lua:/usr/local/openresty/nginx/lua'
     networks:
       - front-tier
       - back-tier
     depends_on:
       - users
 
-  pwa:
-    build:
-      context: ./../pwa
-      dockerfile: Dockerfile
-    restart: always
-    image: danydodson/seesee-pwa
-    ports:
-      - 3000:3000
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - REACT_APP_API_URL=http://localhost:8081
-    stdin_open: true
-    volumes:
-      - './../pwa:/usr/src/app'
-      - 'pwas-nm:/usr/src/app/node_modules'
-    networks:
-      - front-tier
-    depends_on:
-      - users
+  # pwa:
+  #   build:
+  #     context: ./../pwa
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   image: danydodson/seesee-pwa
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - NODE_ENV=development
+  #     - CHOKIDAR_USEPOLLING=true
+  #     - REACT_APP_API_URL=http://localhost:8081
+  #   stdin_open: true
+  #   volumes:
+  #     - './../pwa:/usr/src/app'
+  #     - 'pwas-nm:/usr/src/app/node_modules'
+  #   networks:
+  #     - front-tier
+  #   depends_on:
+  #     - users
 
-  users:
+  users-services:
     build:
-      context: ./../users
+      context: ./../users-services
       dockerfile: Dockerfile
     restart: always
-    image: danydodson/seesee-users
+    image: seesee/users-services
     volumes:
-      - './../users:/usr/src/app'
+      - './../users-services:/usr/src/app'
       - 'users-nm:/usr/src/app/node_modules'
     environment:
       NODE_ENV: development
