@@ -16,6 +16,8 @@ services:
     networks:
       - front-tier
       - back-tier
+    links:
+      - users-services
     depends_on:
       - users-services
 
@@ -56,10 +58,14 @@ services:
     command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
     networks:
       - back-tier
+    links:
+      - users-services
 
 networks:
   front-tier:
+    name: front-tier
   back-tier:
+    name: back-tier
 
 volumes:
   pwas-nm: null
