@@ -12,7 +12,7 @@ services:
     env_file:
       - ./../nginx-services/.env.test
     volumes:
-      - './../nginx-services/data:/usr/local/openresty/nginx:ro'
+      - './../nginx-services/data/:/usr/local/openresty/nginx/'
     networks:
       - front-tier
       - back-tier
