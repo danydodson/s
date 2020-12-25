@@ -26,8 +26,6 @@ jobs:
           name: Build service
           command: make test
 
-      - setup_remote_docker
-
       - run:
           name: Start container and verify it's working
           command: |
@@ -35,7 +33,7 @@ jobs:
             docker-compose -f docker-tools/docker-compose.yml build contacts
             docker-compose -f docker-tools/docker-compose.yml up -d contacts
             # docker-compose will start 2 containers, the one with service will be named `contacts` we start another container with curl in the same network as `contacts`, this way we have all exposed ports from `contacts` available on `localhost` in this new container
-            docker run --network container:contacts \
+            docker run --network back-tier contacts \
               appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:8081/contacts/test
       
       - store_artifacts:
